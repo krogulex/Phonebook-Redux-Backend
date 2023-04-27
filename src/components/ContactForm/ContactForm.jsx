@@ -1,13 +1,13 @@
 import { useDispatch } from 'react-redux';
-// import { addContact } from 'redux/actions';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 import { useSelector } from 'react-redux';
-import { getContacts } from 'redux/selectors';
+import { contactsSelector } from 'redux/selectors';
+import { nanoid } from '@reduxjs/toolkit';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
 
-  const oldContacts = useSelector(getContacts);
+  const oldContacts = useSelector(contactsSelector);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -15,7 +15,8 @@ export const ContactForm = () => {
 
     const contact = {
       name: form.elements[0].value,
-      number: form.elements[1].value,
+      phone: form.elements[1].value,
+      id: nanoid(),
     };
 
     if (

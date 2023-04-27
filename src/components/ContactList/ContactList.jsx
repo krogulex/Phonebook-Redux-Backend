@@ -1,12 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts, getFilter } from 'redux/selectors';
-
-//import { deleteContact } from 'redux/actions';
-import { deleteContact } from 'redux/contactsSlice';
+import { deleteContact } from 'redux/operations';
+import { contactsSelector, filterSelector } from 'redux/selectors';
 
 export const ContactList = () => {
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
+  const contacts = useSelector(contactsSelector);
+  const filter = useSelector(filterSelector);
 
   const dispatch = useDispatch();
 
@@ -14,11 +12,31 @@ export const ContactList = () => {
 
   return (
     <div>
-      {contacts.length === 0
+      {contacts.length === undefined ? (
+        <p>No contacts</p>
+      ) : (
+        contacts.map(element => {
+          return (
+            <div key={element.id} id={element.id} className="contact-item">
+              <p>
+                <span>{element.name}: </span>
+                {element.phone}
+              </p>
+              <button
+                className="contact-delete"
+                onClick={() => handleDelete(element.id)}
+              >
+                delete
+              </button>
+            </div>
+          );
+        })
+      )}
+      {/*  {contacts.length === 0
         ? <p>No contacts yet...</p>
         : filter !== ''
         ? contacts
-            .filter(f => f.name.toLowerCase().includes(filter.toLowerCase()))
+            .filter(f => f.name.toLowerCase().includes(filter.toLowerCase())) 
             .map(element => {
               return (
                 <div key={element.id} id={element.id} className="contact-item">
@@ -50,7 +68,7 @@ export const ContactList = () => {
                 </button>
               </div>
             );
-          })}
+          })} */}
     </div>
   );
 };
