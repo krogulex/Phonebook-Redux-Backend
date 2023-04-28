@@ -1,10 +1,8 @@
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 
-// import { filterContacts } from "redux/actions";
-import { filterContacts } from "redux/filterSlice";
+import { filterContacts } from 'redux/filterSlice';
 
 export const Filter = () => {
-
   const dispatch = useDispatch();
 
   const handleFilterChange = event => {
@@ -26,4 +24,4 @@ export const Filter = () => {
       />
     </div>
   );
-}
+};

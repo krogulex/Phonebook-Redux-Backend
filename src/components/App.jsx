@@ -1,20 +1,19 @@
-
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from 'redux/operations';
-import { getIsLoading } from 'redux/selectors';
-import { getError } from 'redux/selectors';
-import { useSelector } from 'react-redux';
+import { selectIsLoading, selectError, selectIsAdding } from 'redux/selectors';
 import { useEffect } from 'react';
 
-export const App = () => {
+import { ThreeDots } from 'react-loader-spinner';
 
+export const App = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(getIsLoading);
-  const error = useSelector(getError);
+  const isLoading = useSelector(selectIsLoading);
+  const isAdding = useSelector(selectIsAdding);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -24,8 +23,41 @@ export const App = () => {
     <div className="content-box">
       <ContactForm />
       <Filter />
-      {isLoading && !error && <b>Request in progress...</b>}
+      {isLoading && !error && (
+        <div className='loader'>
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="#008CBA"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+            ma
+          />
+        </div>
+      )}
+      {error && (
+        <p>Service communication error</p>
+      )
+      }
       <ContactList />
+      {isAdding && !error && (
+        <div className='loader'>
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="#008CBA"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+            ma
+          />
+        </div>
+      )}
     </div>
   );
 };

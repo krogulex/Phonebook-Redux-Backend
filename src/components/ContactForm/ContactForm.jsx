@@ -1,13 +1,13 @@
 import { useDispatch } from 'react-redux';
 import { addContact } from 'redux/operations';
 import { useSelector } from 'react-redux';
-import { contactsSelector } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 import { nanoid } from '@reduxjs/toolkit';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
 
-  const oldContacts = useSelector(contactsSelector);
+  const oldContacts = useSelector(selectContacts);
 
   const handleSubmit = event => {
     event.preventDefault();

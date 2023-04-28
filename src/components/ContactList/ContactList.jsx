@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'redux/operations';
-import { contactsSelector, filterSelector } from 'redux/selectors';
+import { selectContacts, selectFilteredContacts } from 'redux/selectors';
 
 export const ContactList = () => {
-  const contacts = useSelector(contactsSelector);
-  const filter = useSelector(filterSelector);
+  const contacts = useSelector(selectContacts);
+
+  const filteredContacts = useSelector(selectFilteredContacts);
 
   const dispatch = useDispatch();
 
@@ -12,10 +13,11 @@ export const ContactList = () => {
 
   return (
     <div>
-      {contacts.length === undefined ? (
-        <p>No contacts</p>
+      {contacts.length > filteredContacts.length &&
+      filteredContacts.length === 0 ? (
+        <p>No contacts found</p>
       ) : (
-        contacts.map(element => {
+        filteredContacts.map(element => {
           return (
             <div key={element.id} id={element.id} className="contact-item">
               <p>
@@ -32,43 +34,6 @@ export const ContactList = () => {
           );
         })
       )}
-      {/*  {contacts.length === 0
-        ? <p>No contacts yet...</p>
-        : filter !== ''
-        ? contacts
-            .filter(f => f.name.toLowerCase().includes(filter.toLowerCase())) 
-            .map(element => {
-              return (
-                <div key={element.id} id={element.id} className="contact-item">
-                  <p>
-                    <span>{element.name}: </span>
-                    {element.number}
-                  </p>
-                  <button
-                    className="contact-delete"
-                    onClick={() => handleDelete(element.id)}
-                  >
-                    delete
-                  </button>
-                </div>
-              );
-            })
-        : contacts.map(element => {
-            return (
-              <div key={element.id} id={element.id} className="contact-item">
-                <p>
-                  <span>{element.name}: </span>
-                  {element.number}
-                </p>
-                <button
-                  className="contact-delete"
-                  onClick={() => handleDelete(element.id)}
-                >
-                  delete
-                </button>
-              </div>
-            );
-          })} */}
     </div>
   );
 };
